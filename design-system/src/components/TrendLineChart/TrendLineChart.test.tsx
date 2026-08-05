@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { TrendLineChart } from './TrendLineChart';
 
 const DATA = [
@@ -49,6 +49,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  cleanup();
 });
 
 describe('TrendLineChart', () => {

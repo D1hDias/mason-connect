@@ -14,14 +14,14 @@ describe('FilterTabs', () => {
   });
   it('marks the active option as selected', () => {
     render(<FilterTabs options={OPTIONS} value="todos" onChange={() => {}} />);
-    expect(screen.getByRole('tab', { name: 'Todos' })).toHaveAttribute('aria-selected', 'true');
-    expect(screen.getByRole('tab', { name: 'Pendentes' })).toHaveAttribute('aria-selected', 'false');
+    expect(screen.getByRole('button', { name: 'Todos', pressed: true })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Pendentes', pressed: false })).toBeInTheDocument();
   });
 
   it('calls onChange with the clicked option value', async () => {
     const onChange = vi.fn();
     render(<FilterTabs options={OPTIONS} value="todos" onChange={onChange} />);
-    await userEvent.click(screen.getByRole('tab', { name: 'Pendentes' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Pendentes' }));
     expect(onChange).toHaveBeenCalledWith('pendentes');
   });
 });

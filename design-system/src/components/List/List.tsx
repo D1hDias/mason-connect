@@ -12,7 +12,7 @@ export interface ListProps {
 export function List({ header, children }: ListProps) {
   const rows = Children.toArray(children).filter(isValidElement) as ReactElement<ListRowProps>[];
   return (
-    <div className="bg-surface rounded-xl overflow-hidden shadow">
+    <div className="bg-surface rounded-lg overflow-hidden shadow">
       {header && <div className="px-5 py-3 font-semibold text-white bg-brand-brown">{header}</div>}
       {rows.map((row, index) =>
         cloneElement(row, {

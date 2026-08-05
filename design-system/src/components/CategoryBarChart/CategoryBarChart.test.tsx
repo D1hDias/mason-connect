@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, cleanup } from '@testing-library/react';
 import { CategoryBarChart } from './CategoryBarChart';
 
 const DATA = [
@@ -24,6 +24,10 @@ beforeEach(() => {
     y: 0,
     toJSON: () => {},
   });
+});
+
+afterEach(() => {
+  cleanup();
 });
 
 describe('CategoryBarChart', () => {

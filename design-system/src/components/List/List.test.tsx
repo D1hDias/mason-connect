@@ -1,9 +1,13 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, afterEach } from 'vitest';
+import { render, screen, cleanup } from '@testing-library/react';
 import { List } from './List';
 import { ListRow } from './ListRow';
 
 describe('List', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders the header banner when provided', () => {
     render(
       <List header="Extrato do caixa">

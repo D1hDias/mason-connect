@@ -10,7 +10,7 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'style'>
 /** Elevated surface container used to group content across every screen. */
 export function Card({ padded = true, className, children, ...rest }: CardProps) {
   return (
-    <div {...rest} className={cx('bg-surface rounded-xl shadow', padded && 'p-5', className)}>
+    <div {...rest} className={cx('bg-surface rounded-lg shadow', padded && 'p-5', className)}>
       {children}
     </div>
   );

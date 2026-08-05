@@ -1,4 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { brandColors, semanticColors } from '../../tokens/colors';
 
 export interface CategoryBarChartDatum {
   label: string;
@@ -16,11 +17,11 @@ export function CategoryBarChart({ data, valueFormatter }: CategoryBarChartProps
     <div style={{ height: 230 }}>
       <ResponsiveContainer>
         <BarChart data={data} margin={{ top: 10, right: 10, left: -22, bottom: 0 }}>
-          <CartesianGrid stroke="#EFE8DA" vertical={false} />
-          <XAxis dataKey="label" stroke="#9C8C6E" fontSize={12} tickLine={false} />
-          <YAxis stroke="#9C8C6E" fontSize={12} tickLine={false} axisLine={false} />
+          <CartesianGrid stroke={semanticColors.gridLine} vertical={false} />
+          <XAxis dataKey="label" stroke={brandColors.bronze} fontSize={12} tickLine={false} />
+          <YAxis stroke={brandColors.bronze} fontSize={12} tickLine={false} axisLine={false} />
           <Tooltip formatter={valueFormatter ? (value: number) => valueFormatter(value) : undefined} />
-          <Bar dataKey="value" fill="#855023" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="value" fill={brandColors.brown} radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

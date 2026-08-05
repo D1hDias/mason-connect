@@ -30,6 +30,7 @@ export const semanticColors = {
   primaryHover: '#6E4116',
   accent: brandColors.gold,
   border: '#E3D9C4',
+  gridLine: '#EFE8DA',
 } as const;
 
 /**
