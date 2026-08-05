@@ -1,0 +1,47 @@
+:root {
+  --mc-brown: #855023;
+  --mc-gold: #CAAA67;
+  --mc-cream: #F7F1E4;
+  --mc-ebony: #2B1D0A;
+  --mc-bronze: #9C8C6E;
+
+  --mc-navy: #1A1F2E;
+  --mc-navy-2: #243352;
+  --mc-deck-gold: #B8952A;
+  --mc-deck-gold-2: #C9A84C;
+  --mc-deck-cream: #F5EDD6;
+
+  --mc-bg: var(--mc-cream);
+  --mc-surface: #FFFFFF;
+  --mc-text: var(--mc-ebony);
+  --mc-text-muted: var(--mc-bronze);
+  --mc-primary: var(--mc-brown);
+  --mc-primary-hover: #6E4116;
+  --mc-accent: var(--mc-gold);
+  --mc-border: #E3D9C4;
+
+  --mc-bg-dark: var(--mc-navy);
+  --mc-surface-dark: var(--mc-navy-2);
+  --mc-text-dark: var(--mc-deck-cream);
+  --mc-accent-dark: var(--mc-deck-gold-2);
+
+  --mc-font-heading: Georgia, 'Times New Roman', serif;
+  --mc-font-body: Verdana, 'Segoe UI', Arial, sans-serif;
+  --mc-font-deck: Calibri, 'Segoe UI', Arial, sans-serif;
+
+  --mc-space-1: 4px; --mc-space-2: 8px; --mc-space-3: 12px;
+  --mc-space-4: 16px; --mc-space-6: 24px; --mc-space-8: 32px;
+  --mc-space-12: 48px; --mc-space-16: 64px;
+
+  --mc-radius-sm: 4px;
+  --mc-radius: 8px;
+  --mc-radius-lg: 16px;
+  --mc-shadow: 0 2px 8px rgba(43, 29, 10, 0.12);
+  --mc-shadow-lg: 0 8px 24px rgba(43, 29, 10, 0.18);
+
+  --mc-status-success-bg: #E4EBD9; --mc-status-success-fg: #4E7A3A;
+  --mc-status-warning-bg: #F3E4C8; --mc-status-warning-fg: #B07A1F;
+  --mc-status-critical-bg: #F6E3D9; --mc-status-critical-fg: #9E3B22;
+  --mc-status-neutral-bg: var(--mc-cream); --mc-status-neutral-fg: #6B4A2B;
+  --mc-status-accent-bg: #F0E6CF; --mc-status-accent-fg: #8A6A3F;
+}

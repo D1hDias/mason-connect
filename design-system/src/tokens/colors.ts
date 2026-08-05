@@ -1,0 +1,49 @@
+/**
+ * Official Mason Connect brand colors, sourced from
+ * Documentos/Identidade visual MASON/mason-connect-tokens.json.
+ * The prototype's `cream` (#F5EFE3) is superseded by the official
+ * token value (#F7F1E4) — see design doc §6.
+ */
+export const brandColors = {
+  brown: '#855023',
+  gold: '#CAAA67',
+  cream: '#F7F1E4',
+  ebony: '#2B1D0A',
+  bronze: '#9C8C6E',
+} as const;
+
+/** Dark "deck" palette, for presentation decks. Not consumed by any v1 component (spec §3). */
+export const deckColors = {
+  navy: '#1A1F2E',
+  navy2: '#243352',
+  goldDeck: '#B8952A',
+  goldDeck2: '#C9A84C',
+  creamDeck: '#F5EDD6',
+} as const;
+
+export const semanticColors = {
+  bg: brandColors.cream,
+  surface: '#FFFFFF',
+  text: brandColors.ebony,
+  textMuted: brandColors.bronze,
+  primary: brandColors.brown,
+  primaryHover: '#6E4116',
+  accent: brandColors.gold,
+  border: '#E3D9C4',
+} as const;
+
+/**
+ * Status tint colors used throughout the prototype's badges and status rows
+ * (Reuniao, Indicacoes, Membros). Not present in the official token file —
+ * formalized here from the prototype's inline values, consolidated into
+ * five reusable semantic variants (spec §7 preamble). Screen-specific one-off
+ * tints (e.g. the "andamento" Kanban column) are intentionally not preserved;
+ * those get decided when the actual screens are composed later.
+ */
+export const statusColors = {
+  success: { bg: '#E4EBD9', fg: '#4E7A3A' },
+  warning: { bg: '#F3E4C8', fg: '#B07A1F' },
+  critical: { bg: '#F6E3D9', fg: '#9E3B22' },
+  neutral: { bg: brandColors.cream, fg: '#6B4A2B' },
+  accent: { bg: '#F0E6CF', fg: '#8A6A3F' },
+} as const;
