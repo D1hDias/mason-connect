@@ -124,7 +124,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "tailwind.config.ts", "tsup.config.ts", "vitest.config.ts"]
+  "include": ["src", "tailwind.config.ts", "tsup.config.ts", "vitest.config.ts", "vitest.setup.ts"]
 }
 ```
 
