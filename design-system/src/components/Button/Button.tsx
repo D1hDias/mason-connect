@@ -3,7 +3,7 @@ import { cx } from '../../utils/cx';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
-export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'style'> {
   /** Visual style. `primary` is solid brand-brown; `secondary` is outlined. */
   variant?: ButtonVariant;
   children: ReactNode;
@@ -18,6 +18,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 export function Button({ variant = 'primary', disabled, children, ...rest }: ButtonProps) {
   return (
     <button
+      type="button"
       {...rest}
       disabled={disabled}
       className={cx(
