@@ -1,0 +1,39 @@
+{
+  "$schema": "https://design-tokens.org",
+  "name": "Mason Connect Design Tokens",
+  "version": "1.0",
+  "color": {
+    "brand": {
+      "brown":  { "value": "#855023", "rgb": "133,80,35",   "cmyk": "0,40,74,48", "role": "Primária institucional" },
+      "gold":   { "value": "#CAAA67", "rgb": "202,170,103",  "cmyk": "0,16,49,21", "role": "Acento / destaque" },
+      "cream":  { "value": "#F7F1E4", "rgb": "247,241,228",  "cmyk": "0,2,8,3",    "role": "Fundo claro base" },
+      "ebony":  { "value": "#2B1D0A", "rgb": "43,29,10",     "cmyk": "0,33,77,83", "role": "Texto principal" },
+      "bronze": { "value": "#9C8C6E", "rgb": "156,140,110",  "cmyk": "0,10,29,39", "role": "Neutro de apoio" }
+    },
+    "deck": {
+      "navy":     { "value": "#1A1F2E", "rgb": "26,31,46",   "cmyk": "43,33,0,82", "role": "Fundo escuro primário" },
+      "navy2":    { "value": "#243352", "rgb": "36,51,82",   "cmyk": "56,38,0,68", "role": "Fundo escuro secundário" },
+      "goldDeck": { "value": "#B8952A", "rgb": "184,149,42",  "cmyk": "0,19,77,28", "role": "Dourado sobre escuro" },
+      "goldDeck2":{ "value": "#C9A84C", "rgb": "201,168,76",  "cmyk": "0,16,62,21", "role": "Dourado claro sobre escuro" },
+      "creamDeck":{ "value": "#F5EDD6", "rgb": "245,237,214", "cmyk": "0,3,13,4",   "role": "Texto sobre escuro" }
+    },
+    "semantic": {
+      "bg":          { "value": "{color.brand.cream}" },
+      "surface":     { "value": "#FFFFFF" },
+      "text":        { "value": "{color.brand.ebony}" },
+      "textMuted":   { "value": "{color.brand.bronze}" },
+      "primary":     { "value": "{color.brand.brown}" },
+      "primaryHover":{ "value": "#6E4116" },
+      "accent":      { "value": "{color.brand.gold}" },
+      "border":      { "value": "#E3D9C4" }
+    }
+  },
+  "font": {
+    "heading": { "value": "Georgia, 'Times New Roman', serif" },
+    "body":    { "value": "Verdana, 'Segoe UI', Arial, sans-serif" },
+    "deck":    { "value": "Calibri, 'Segoe UI', Arial, sans-serif" }
+  },
+  "space": { "1":"4px","2":"8px","3":"12px","4":"16px","6":"24px","8":"32px","12":"48px","16":"64px" },
+  "radius": { "sm":"4px","base":"8px","lg":"16px" },
+  "shadow": { "base":"0 2px 8px rgba(43,29,10,0.12)", "lg":"0 8px 24px rgba(43,29,10,0.18)" }
+}
