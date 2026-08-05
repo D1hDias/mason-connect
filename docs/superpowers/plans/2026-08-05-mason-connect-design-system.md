@@ -936,7 +936,7 @@ Expected: FAIL — `Cannot find module './Card'`.
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'style'> {
   /** Whether the card has internal padding. Defaults to true. */
   padded?: boolean;
   children: ReactNode;
@@ -1366,7 +1366,7 @@ Expected: FAIL — `Cannot find module './Input'`.
 import type { InputHTMLAttributes } from 'react';
 import { useId } from 'react';
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'id'> {
+export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'id' | 'style'> {
   label: string;
 }
 
@@ -1484,7 +1484,7 @@ export interface SelectOption {
   value: string;
 }
 
-export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'id'> {
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'className' | 'id' | 'style'> {
   label: string;
   options: SelectOption[];
 }
