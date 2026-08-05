@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { TrendLineChart } from './TrendLineChart';
 
@@ -24,6 +24,31 @@ beforeEach(() => {
     y: 0,
     toJSON: () => {},
   });
+
+  // <Line>'s dots stay unrendered until react-smooth's mount animation
+  // reports isAnimationFinished (recharts/es6/cartesian/Line.js:
+  // `if (isAnimationActive && !this.state.isAnimationFinished) return null`
+  // in renderDots()). react-smooth drives that animation with
+  // requestAnimationFrame (react-smooth/es6/configUpdate.js,
+  // setRafTimeout.js). Vitest's jsdom pool defaults to
+  // `pretendToBeVisual: true`, under which jsdom *does* implement
+  // requestAnimationFrame — it isn't missing, it just fires asynchronously
+  // relative to Testing Library's synchronous render(). Stub it to invoke
+  // its callback synchronously with a strictly increasing, non-zero
+  // timestamp so the whole start -> interpolate -> onAnimationEnd sequence
+  // (including the animationBegin/animationDuration delay steps, which are
+  // also implemented via requestAnimationFrame) resolves before render()
+  // returns — without changing the shipped component's animation behavior.
+  let now = 0;
+  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+    now += 10000;
+    cb(now);
+    return 0;
+  });
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
 });
 
 describe('TrendLineChart', () => {

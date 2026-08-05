@@ -21,14 +21,7 @@ export function TrendLineChart({ data, valueFormatter }: TrendLineChartProps) {
           <XAxis dataKey="label" stroke="#9C8C6E" fontSize={12} tickLine={false} />
           <YAxis stroke="#9C8C6E" fontSize={12} tickLine={false} axisLine={false} />
           <Tooltip formatter={valueFormatter ? (value: number) => valueFormatter(value) : undefined} />
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke="#855023"
-            strokeWidth={3}
-            dot={{ fill: '#CAAA67', r: 4 }}
-            isAnimationActive={false}
-          />
+          <Line type="monotone" dataKey="value" stroke="#855023" strokeWidth={3} dot={{ fill: '#CAAA67', r: 4 }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

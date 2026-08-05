@@ -20,7 +20,7 @@ export function CategoryBarChart({ data, valueFormatter }: CategoryBarChartProps
           <XAxis dataKey="label" stroke="#9C8C6E" fontSize={12} tickLine={false} />
           <YAxis stroke="#9C8C6E" fontSize={12} tickLine={false} axisLine={false} />
           <Tooltip formatter={valueFormatter ? (value: number) => valueFormatter(value) : undefined} />
-          <Bar dataKey="value" fill="#855023" radius={[6, 6, 0, 0]} isAnimationActive={false} />
+          <Bar dataKey="value" fill="#855023" radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
