@@ -1,0 +1,24 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
+
+const meta: Meta<typeof Button> = {
+  title: 'Components/Button',
+  component: Button,
+};
+export default meta;
+
+type Story = StoryObj<typeof Button>;
+
+/** "Entrar no sistema" — botão primário da tela de login do protótipo. */
+export const Primary: Story = {
+  args: { variant: 'primary', children: 'Entrar no sistema' },
+};
+
+/** "Cancelar" — botão secundário do formulário de nova indicação. */
+export const Secondary: Story = {
+  args: { variant: 'secondary', children: 'Cancelar' },
+};
+
+export const Disabled: Story = {
+  args: { variant: 'primary', children: 'Entrar no sistema', disabled: true },
+};
