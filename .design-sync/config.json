@@ -1,0 +1,9 @@
+{
+  "projectId": "a73a2ba3-8e7c-4c63-956a-e9a17377e9a2",
+  "shape": "storybook",
+  "pkg": "mason-connect-design-system",
+  "storybookStatic": ".design-sync/sb-reference",
+  "storybookConfigDir": "design-system/.storybook",
+  "buildCmd": "cd design-system && npm run build",
+  "readmeHeader": ".design-sync/conventions.md"
+}
