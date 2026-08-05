@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
-export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className' | 'style'> {
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'style'> {
   /** Whether the card has internal padding. Defaults to true. */
   padded?: boolean;
   children: ReactNode;
