@@ -4,7 +4,7 @@
 
 **Goal:** Build `design-system/`, a real, compilable React/TypeScript component library (with a publishable `dist/`) that formalizes the Mason Connect brand's official tokens and the UI vocabulary already validated in `MC_BlocoC_08_Prototipo_Navegavel.jsx`, ready to be consumed by the `/design-sync` skill.
 
-**Architecture:** A single npm package at `design-system/` (root-level folder, no monorepo). Each component lives in its own folder (`src/components/<Name>/`) with its implementation, Vitest test, and Storybook story. Styling is Tailwind CSS configured to resolve exclusively through the brand's CSS custom properties (`src/tokens/tokens.css`), never arbitrary hex values, via a shared `tailwind-preset.js`. Build output is produced by `tsup` (JS/CJS/ESM + `.d.ts`) plus a separate Tailwind CLI pass that compiles `dist/styles.css`.
+**Architecture:** A single npm package at `design-system/` (root-level folder, no monorepo). Each component lives in its own folder (`src/components/<Name>/`) with its implementation, Vitest test, and Storybook story. Styling is Tailwind CSS configured to resolve exclusively through the brand's CSS custom properties (`src/tokens/tokens.css`), never arbitrary hex values, via a shared `tailwind-preset.cjs` (`.cjs` because the package sets `"type": "module"` — a plain `.js` file using `module.exports` would throw). Build output is produced by `tsup` (JS/CJS/ESM + `.d.ts`) plus a separate Tailwind CLI pass that compiles `dist/styles.css`.
 
 **Tech Stack:** React 18 + TypeScript (strict), Tailwind CSS 3, tsup (esbuild), Storybook 8 (`@storybook/react-vite`), Vitest + React Testing Library, recharts (bundled dependency for the two chart components).
 
@@ -60,9 +60,9 @@
       "require": "./dist/index.cjs"
     },
     "./dist/styles.css": "./dist/styles.css",
-    "./tailwind-preset": "./tailwind-preset.js"
+    "./tailwind-preset": "./tailwind-preset.cjs"
   },
-  "files": ["dist", "tailwind-preset.js"],
+  "files": ["dist", "tailwind-preset.cjs"],
   "engines": {
     "node": ">=18"
   },
@@ -235,9 +235,9 @@ git commit -m "chore(design-system): scaffold package, build and test tooling"
 - Create: `design-system/src/utils/cx.ts`
 - Create: `design-system/src/utils/cx.test.ts`
 - Create: `design-system/src/styles.css`
-- Create: `design-system/tailwind-preset.js`
+- Create: `design-system/tailwind-preset.cjs`
 - Create: `design-system/tailwind.config.ts`
-- Create: `design-system/postcss.config.js`
+- Create: `design-system/postcss.config.cjs`
 
 **Interfaces:**
 - Consumes: nothing beyond Task 1's scaffolding.
@@ -449,12 +449,16 @@ Expected: PASS (all tests, including Task 1's).
 - [ ] **Step 6: Write the shared Tailwind preset**
 
 ```js
-// design-system/tailwind-preset.js
+// design-system/tailwind-preset.cjs
 /**
  * Shared Tailwind preset for Mason Connect. Consuming apps extend this via
  * `presets: [require('mason-connect-design-system/tailwind-preset')]`.
  * Colors resolve through the CSS custom properties in tokens.css, so the
  * hex values stay single-sourced there.
+ * `.cjs` extension: the package sets `"type": "module"` in package.json, so a
+ * plain `.js` file using `module.exports` would throw `ReferenceError: module
+ * is not defined in ES module scope`. `.cjs` always loads as CommonJS
+ * regardless of that setting.
  */
 module.exports = {
   theme: {
@@ -504,9 +508,11 @@ module.exports = {
 
 ```ts
 // design-system/tailwind.config.ts
+// Imported (not required): this file is loaded as ESM (package.json has
+// "type": "module"), and Node's ESM loader has no `require`. Importing a
+// CommonJS module from ESM works via Node's default-export interop.
 import type { Config } from 'tailwindcss';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const preset = require('./tailwind-preset.js');
+import preset from './tailwind-preset.cjs';
 
 const config: Config = {
   presets: [preset],
@@ -517,7 +523,10 @@ export default config;
 ```
 
 ```js
-// design-system/postcss.config.js
+// design-system/postcss.config.cjs
+// `.cjs` extension: see the note on tailwind-preset.cjs above — package.json's
+// "type": "module" would otherwise make `module.exports` throw here too, and
+// Storybook's Vite pipeline loads this file directly.
 module.exports = {
   plugins: {
     tailwindcss: {},
@@ -543,7 +552,7 @@ Expected: exits 0 (the compiled stylesheet contains the brand token).
 
 ```bash
 git add design-system/src/tokens design-system/src/utils design-system/src/styles.css \
-  design-system/tailwind-preset.js design-system/tailwind.config.ts design-system/postcss.config.js
+  design-system/tailwind-preset.cjs design-system/tailwind.config.ts design-system/postcss.config.cjs
 git commit -m "feat(design-system): add design tokens, cx utility, and Tailwind pipeline"
 ```
 
