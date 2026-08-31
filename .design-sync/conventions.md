@@ -9,9 +9,12 @@
 | Brand colors | `bg-brand-brown` (primary), `bg-brand-gold` (accent), `bg-brand-cream` (page bg), `text-brand-brown`, `text-brand-bronze` (muted text), `border-brand-gold` |
 | Surfaces | `bg-surface` (card/white), `border-border` |
 | Status tints | `bg-status-{success,warning,critical,neutral,accent}-bg` + matching `text-status-*-fg` — pass these via each component's own `variant`/`tone` prop, don't apply them directly to your own markup |
+| Financial amounts | `text-finance-positive` / `text-finance-negative` — the ONE color pair meant for free-form text you write yourself (e.g. a ledger/extrato row's amount span), not gated behind a component prop. Pair with `.mc-num` below; use `+`/`−` (U+2212 minus, not a hyphen) as the sign |
+| Numerals | `.mc-num` on any KPI, monetary value, date, percentage, or chart-axis number — switches to a tabular numeral face so figures align in columns (Georgia's own numerals are old-style/variable-width and misalign otherwise) |
 | Headings | `font-heading` (Georgia serif — headings only; body text uses the default sans stack) |
 | Radius | `rounded-lg` (16px, the brand's card radius) — not `rounded-xl`, which is Tailwind's un-tokenized 12px default and off-brand |
 | Touch targets | every interactive component already ships `min-h-[44px]`; don't shrink it |
+| Full-width buttons | `Button` accepts `fullWidth` — spans its container, the mobile-first default for a screen's primary CTA |
 
 **Mobile-first, not desktop.** There is no sidebar component. `BottomNav` (with `NavTab` children) is the primary navigation pattern — a fixed-height tab bar, meant to sit at the bottom of the viewport. Content components (`Card`, `Stat`, the charts) render full-width/single-column by default; don't wrap them in CSS grid layouts that assume desktop columns.
 
