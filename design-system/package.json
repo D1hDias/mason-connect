@@ -24,6 +24,7 @@
     "build": "npm run build:js && npm run build:css",
     "build:js": "tsup",
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",

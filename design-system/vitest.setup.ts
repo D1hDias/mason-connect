@@ -7,5 +7,4 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
-// @ts-expect-error -- jsdom has no ResizeObserver
-global.ResizeObserver = global.ResizeObserver ?? ResizeObserverMock;
+global.ResizeObserver = global.ResizeObserver ?? (ResizeObserverMock as unknown as typeof ResizeObserver);
