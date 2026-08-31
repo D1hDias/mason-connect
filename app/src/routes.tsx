@@ -19,6 +19,7 @@ export function AppRoutes() {
         <Route path="/financeiro" element={<FinanceiroScreen />} />
         <Route path="/perfil" element={<PerfilScreen />} />
       </Route>
+      <Route path="*" element={<Navigate to="/painel" replace />} />
     </Routes>
   );
 }
