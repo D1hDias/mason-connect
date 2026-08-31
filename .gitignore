@@ -4,3 +4,5 @@
 .design-sync/node_modules
 .ds-sync/
 ds-bundle/
+node_modules
+package-lock.json

@@ -1,0 +1,16 @@
+{
+  "name": "mason-connect",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mason Connect monorepo",
+  "workspaces": [
+    "design-system",
+    "app"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w design-system",
+    "build": "npm run build -w design-system && npm run build -w app",
+    "test": "npm test -w design-system && npm test -w app",
+    "typecheck": "npm run typecheck -w design-system && npm run typecheck -w app"
+  }
+}
