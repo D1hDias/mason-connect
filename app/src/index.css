@@ -1,0 +1,9 @@
+/* App-local Tailwind entry: generates utility classes for whatever this app's
+   own source (see the content globs in tailwind.config.ts) uses directly, on
+   top of the presentational classes design-system components already ship
+   with in mason-connect-design-system/dist/styles.css (imported separately
+   in main.tsx). Both build against the same preset/tokens, so this is purely
+   additive — no conflicting resets. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
