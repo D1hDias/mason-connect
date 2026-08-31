@@ -2,7 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "description": "Mason Connect — aplicativo PWA para gestores de obra.",
+  "description": "Mason Connect — aplicativo PWA de gestão de núcleo de networking de negócios.",
   "type": "module",
   "scripts": {
     "dev": "vite",

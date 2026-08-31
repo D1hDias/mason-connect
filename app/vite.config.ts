@@ -17,6 +17,8 @@ export default defineConfig(({ command }) => ({
       manifest: {
         name: 'Mason Connect',
         short_name: 'Mason Connect',
+        description: 'Mason Connect — aplicativo PWA de gestão de núcleo de networking de negócios.',
+        lang: 'pt-BR',
         theme_color: '#855023',
         background_color: '#F7F1E4',
         display: 'standalone',
