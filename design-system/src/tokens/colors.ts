@@ -48,3 +48,15 @@ export const statusColors = {
   neutral: { bg: brandColors.cream, fg: '#6B4A2B' },
   accent: { bg: '#F0E6CF', fg: '#8A6A3F' },
 } as const;
+
+/**
+ * Finance/monetary tint colors for displaying positive (gains) and negative (losses)
+ * values in financial contexts (e.g. ListRow trailing values, financial reports).
+ * Distinct namespace (`finance-*` not `status-*`) because hex values diverge from
+ * status tokens and because status tints should only be applied via component props,
+ * never directly to free-form text.
+ */
+export const financeColors = {
+  positive: '#2F6B3D',
+  negative: '#8A2B2B',
+} as const;

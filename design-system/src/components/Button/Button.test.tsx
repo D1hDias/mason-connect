@@ -34,4 +34,9 @@ describe('Button', () => {
     render(<Button disabled>Entrar</Button>);
     expect(screen.getByRole('button')).toBeDisabled();
   });
+
+  it('applies w-full class when fullWidth is true', () => {
+    render(<Button fullWidth>Entrar</Button>);
+    expect(screen.getByRole('button')).toHaveClass('w-full');
+  });
 });

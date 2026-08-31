@@ -33,6 +33,10 @@ module.exports = {
           'accent-bg': 'var(--mc-status-accent-bg)',
           'accent-fg': 'var(--mc-status-accent-fg)',
         },
+        finance: {
+          positive: 'var(--mc-finance-positive)',
+          negative: 'var(--mc-finance-negative)',
+        },
       },
       fontFamily: {
         heading: ['Georgia', 'Times New Roman', 'serif'],

@@ -22,3 +22,7 @@ export const Secondary: Story = {
 export const Disabled: Story = {
   args: { variant: 'primary', children: 'Entrar no sistema', disabled: true },
 };
+
+export const FullWidth: Story = {
+  args: { variant: 'primary', children: 'Ação em tela cheia', fullWidth: true },
+};

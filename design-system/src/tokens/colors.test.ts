@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { brandColors, statusColors } from './colors';
+import { brandColors, statusColors, financeColors } from './colors';
 
 describe('brandColors', () => {
   it('matches the official Mason Connect brand palette', () => {
@@ -15,5 +15,12 @@ describe('statusColors', () => {
     expect(Object.keys(statusColors).sort()).toEqual(
       ['accent', 'critical', 'neutral', 'success', 'warning'].sort()
     );
+  });
+});
+
+describe('financeColors', () => {
+  it('defines positive and negative monetary tints', () => {
+    expect(financeColors.positive).toBe('#2F6B3D');
+    expect(financeColors.negative).toBe('#8A2B2B');
   });
 });

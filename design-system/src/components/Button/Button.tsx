@@ -6,6 +6,8 @@ export type ButtonVariant = 'primary' | 'secondary';
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'style'> {
   /** Visual style. `primary` is solid brand-brown; `secondary` is outlined. */
   variant?: ButtonVariant;
+  /** If true, button takes full width of its container. */
+  fullWidth?: boolean;
   children: ReactNode;
 }
 
@@ -15,7 +17,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 /** Primary and secondary call-to-action button, mobile touch target (min 44px tall). */
-export function Button({ variant = 'primary', disabled, children, ...rest }: ButtonProps) {
+export function Button({ variant = 'primary', fullWidth, disabled, children, ...rest }: ButtonProps) {
   return (
     <button
       type="button"
@@ -24,7 +26,8 @@ export function Button({ variant = 'primary', disabled, children, ...rest }: But
       className={cx(
         'inline-flex items-center justify-center h-11 min-h-[44px] px-5 rounded-lg text-sm font-semibold',
         VARIANT_CLASSES[variant],
-        disabled && 'opacity-50 cursor-not-allowed'
+        disabled && 'opacity-50 cursor-not-allowed',
+        fullWidth && 'w-full'
       )}
     >
       {children}

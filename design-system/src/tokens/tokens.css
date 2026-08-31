@@ -45,4 +45,15 @@
   --mc-status-critical-bg: #F6E3D9; --mc-status-critical-fg: #9E3B22;
   --mc-status-neutral-bg: var(--mc-cream); --mc-status-neutral-fg: #6B4A2B;
   --mc-status-accent-bg: #F0E6CF; --mc-status-accent-fg: #8A6A3F;
+
+  --mc-finance-positive: #2F6B3D;
+  --mc-finance-negative: #8A2B2B;
+
+  --mc-font-tabular: 'IBM Plex Sans', var(--mc-font-body);
+}
+
+.mc-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0;
 }
