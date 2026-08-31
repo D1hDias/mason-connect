@@ -79,7 +79,7 @@ export function PainelScreen() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 md:gap-[18px]">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-[1.6fr_1fr] md:gap-[18px] md:items-start">
         <Card>
           <p className="font-heading text-lg font-bold text-brand-brown">Valor gerado no núcleo</p>
           <p className="mb-3 mt-1 text-xs text-brand-bronze">Últimos seis meses</p>
