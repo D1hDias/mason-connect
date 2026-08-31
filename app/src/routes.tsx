@@ -3,12 +3,11 @@ import { AppShell } from './shell/AppShell';
 import { PainelScreen } from './screens/Painel';
 import { MembrosScreen } from './screens/Membros';
 import { FinanceiroScreen } from './screens/Financeiro';
+import { PerfilScreen } from './screens/Perfil';
 
 /**
- * 4 rotas irmãs sob `AppShell`. `/painel`, `/membros` e `/financeiro` já
- * usam suas telas reais (Tasks 6-8); `/perfil` (Task 9) segue como
- * placeholder simples até sua tela chegar, sem precisar mexer nesta árvore
- * de rotas.
+ * 4 rotas irmãs sob `AppShell`, todas com suas telas reais (Tasks 6-9;
+ * `/perfil` foi a última a sair do placeholder).
  */
 export function AppRoutes() {
   return (
@@ -18,7 +17,7 @@ export function AppRoutes() {
         <Route path="/painel" element={<PainelScreen />} />
         <Route path="/membros" element={<MembrosScreen />} />
         <Route path="/financeiro" element={<FinanceiroScreen />} />
-        <Route path="/perfil" element={<div>Perfil</div>} />
+        <Route path="/perfil" element={<PerfilScreen />} />
       </Route>
     </Routes>
   );
