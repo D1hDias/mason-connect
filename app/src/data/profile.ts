@@ -7,6 +7,8 @@ import type { MemberStatus } from './members';
  * 31 indicações feitas, 94% de presença no ano.
  */
 
+export type ProfileCategoria = 'gestor' | 'administrativo' | 'empresario';
+
 export interface Profile {
   name: string;
   cadeira: string;
@@ -18,6 +20,7 @@ export interface Profile {
   indicacoesFeitas: number;
   presencaAnoPercent: number;
   nucleo: string;
+  categoria: ProfileCategoria;
 }
 
 export const profile: Profile = {
@@ -30,4 +33,5 @@ export const profile: Profile = {
   indicacoesFeitas: 31,
   presencaAnoPercent: 94,
   nucleo: 'Núcleo Rio de Janeiro',
+  categoria: 'gestor',
 };

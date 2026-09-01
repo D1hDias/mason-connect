@@ -18,18 +18,20 @@ export interface Member {
   role: string;
   status: MemberStatus;
   desktopOnly?: boolean;
+  faltas?: number;
 }
 
 export const members: Member[] = [
-  { name: 'Leonardo Almeida', role: 'Consultoria Empresarial · Plano Anual', status: 'ativo' },
-  { name: 'Jackson Pereira', role: 'Seguros · Plano Mensal', status: 'pendente' },
-  { name: 'Camila Rocha', role: 'Arquitetura · Plano Anual', status: 'ativo' },
-  { name: 'Eduardo Matos', role: 'Contabilidade · Plano Mensal', status: 'ativo' },
-  { name: 'Davi Lopes', role: 'Tecnologia · Plano Anual', status: 'pendente' },
+  { name: 'Leonardo Almeida', role: 'Consultoria Empresarial · Plano Anual', status: 'ativo', faltas: 0 },
+  { name: 'Jackson Pereira', role: 'Seguros · Plano Mensal', status: 'pendente', faltas: 1 },
+  { name: 'Camila Rocha', role: 'Arquitetura · Plano Anual', status: 'ativo', faltas: 0 },
+  { name: 'Eduardo Matos', role: 'Contabilidade · Plano Mensal', status: 'ativo', faltas: 2 },
+  { name: 'Davi Lopes', role: 'Tecnologia · Plano Anual', status: 'pendente', faltas: 0 },
   {
     name: 'Renata Vieira',
     role: 'Direito Tributário · Plano Anual',
     status: 'ativo',
     desktopOnly: true,
+    faltas: 0,
   },
 ];
