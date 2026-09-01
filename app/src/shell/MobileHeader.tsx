@@ -24,7 +24,7 @@ export function MobileHeader() {
         type="button"
         aria-label="Abrir menu"
         onClick={openDrawer}
-        className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full border border-brand-gold/50 text-[15px] text-brand-gold"
+        className="flex h-[44px] w-[44px] flex-none items-center justify-center rounded-full border border-brand-gold/50 text-[15px] text-brand-gold"
       >
         ☰
       </button>
