@@ -1,0 +1,26 @@
+name: mason-connect
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mason-connect-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mason_connect
+      POSTGRES_PASSWORD: mason_connect_dev
+      POSTGRES_DB: mason_connect
+    ports:
+      # Host port 5435 chosen because 5432/5433/5434 are already bound by
+      # other local projects on this machine (see `docker ps`).
+      - "5435:5432"
+    volumes:
+      - mason-connect-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mason_connect -d mason_connect"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mason-connect-postgres-data:
+    name: mason-connect-postgres-data

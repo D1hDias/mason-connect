@@ -5,12 +5,17 @@
   "description": "Mason Connect monorepo",
   "workspaces": [
     "design-system",
-    "app"
+    "app",
+    "server"
   ],
+  "overrides": {
+    "drizzle-orm": "^0.45.2"
+  },
   "scripts": {
+    "postinstall": "node scripts/postinstall-fix-drizzle.mjs",
     "dev": "npm run dev -w app",
-    "build": "npm run build -w design-system && npm run build -w app",
-    "test": "npm test -w design-system && npm test -w app",
-    "typecheck": "npm run typecheck -w design-system && npm run typecheck -w app"
+    "build": "npm run build -w design-system && npm run build -w app && npm run build -w server",
+    "test": "npm test -w design-system && npm test -w app && npm test -w server",
+    "typecheck": "npm run typecheck -w design-system && npm run typecheck -w app && npm run typecheck -w server"
   }
 }
