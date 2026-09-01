@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { AppShell } from './AppShell';
 
@@ -46,6 +46,26 @@ describe('AppShell', () => {
     expect(inactiveButtons).toHaveLength(2);
     for (const button of inactiveButtons) {
       expect(button).not.toHaveAttribute('aria-current');
+    }
+  });
+
+  it('renders 8 nav items in the desktop sidebar and 4 in the mobile bottom nav', () => {
+    const { container } = renderShell('/painel');
+
+    // The sidebar's own <nav> and the bottom nav's <div> (BottomNav from the
+    // design-system) are the only nav-tab containers — narrower than the two
+    // `.md:hidden`/`.hidden.md:flex` wrappers each breakpoint has (header vs.
+    // bottom-nav, sidebar vs. topbar), so class selectors alone would grab
+    // the wrong sibling.
+    const desktopNav = container.querySelector('aside nav') as HTMLElement;
+    const mobileNav = container.querySelector('.md\\:hidden nav') as HTMLElement;
+
+    expect(within(mobileNav).getAllByRole('button')).toHaveLength(4);
+    expect(within(desktopNav).getAllByRole('button')).toHaveLength(8);
+
+    for (const label of ['Presença', 'Indicações', 'Config', 'Conduta']) {
+      expect(within(desktopNav).getByRole('button', { name: label })).toBeInTheDocument();
+      expect(within(mobileNav).queryByRole('button', { name: label })).toBeNull();
     }
   });
 

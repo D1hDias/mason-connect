@@ -36,6 +36,26 @@ export const screensMeta: Record<string, ScreenMeta> = {
     title: 'Meu perfil',
     desktopSubtitle: 'Dados cadastrais e preferências',
   },
+  '/presenca': {
+    title: 'Presença ao Vivo',
+    mobileSubtitle: 'Registro de presença · Rodada de Negócios',
+    desktopSubtitle: 'Registro de presença · Rodada de Negócios',
+  },
+  '/indicacoes': {
+    title: 'Indicações e Negócios',
+    mobileSubtitle: 'Funil de indicações do núcleo',
+    desktopSubtitle: 'Funil de indicações do núcleo',
+  },
+  '/config': {
+    title: 'Parâmetros do Grupo',
+    mobileSubtitle: 'Parâmetros e auditoria do núcleo',
+    desktopSubtitle: 'Parâmetros e auditoria do núcleo',
+  },
+  '/conduta': {
+    title: 'Ocorrências de Conduta',
+    mobileSubtitle: 'Registro sigiloso da gestão',
+    desktopSubtitle: 'Registro sigiloso da gestão',
+  },
 };
 
 export interface NavItem {
@@ -49,4 +69,16 @@ export const navItems: NavItem[] = [
   { path: '/membros', label: 'Membros' },
   { path: '/financeiro', label: 'Financeiro' },
   { path: '/perfil', label: 'Perfil' },
+];
+
+/** 8 itens: os 4 de `navItems` + as 4 novas telas de gestão, usado por `DesktopSidebar` e `Drawer`. */
+export const moduleItems: NavItem[] = [
+  { path: '/painel', label: 'Painel' },
+  { path: '/membros', label: 'Membros' },
+  { path: '/financeiro', label: 'Financeiro' },
+  { path: '/perfil', label: 'Perfil' },
+  { path: '/presenca', label: 'Presença' },
+  { path: '/indicacoes', label: 'Indicações' },
+  { path: '/config', label: 'Config' },
+  { path: '/conduta', label: 'Conduta' },
 ];

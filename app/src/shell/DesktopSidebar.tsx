@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import logoSymbol from '../assets/logo-symbol.png';
 import { meetings } from '../data/meetings';
 import { profile } from '../data/profile';
-import { navItems } from './screens-meta';
+import { moduleItems } from './screens-meta';
 
 /**
  * Markup próprio do app (não é componente do design-system — achado #4):
@@ -30,7 +30,7 @@ export function DesktopSidebar() {
       </div>
 
       <nav className="flex flex-col gap-1">
-        {navItems.map((item) => {
+        {moduleItems.map((item) => {
           const active = pathname === item.path;
           return (
             <button
