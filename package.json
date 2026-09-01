@@ -13,9 +13,12 @@
   },
   "scripts": {
     "postinstall": "node scripts/postinstall-fix-drizzle.mjs",
-    "dev": "npm run dev -w app",
+    "dev": "concurrently -n app,server -c blue,green \"npm run dev -w app\" \"npm run dev -w server\"",
     "build": "npm run build -w design-system && npm run build -w app && npm run build -w server",
     "test": "npm test -w design-system && npm test -w app && npm test -w server",
     "typecheck": "npm run typecheck -w design-system && npm run typecheck -w app && npm run typecheck -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
