@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
-export type ButtonVariant = 'primary' | 'secondary';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'style'> {
   /** Visual style. `primary` is solid brand-brown; `secondary` is outlined. */
@@ -14,6 +14,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-brand-brown text-white hover:bg-[var(--mc-primary-hover)]',
   secondary: 'bg-transparent text-brand-brown border-[1.5px] border-brand-gold',
+  danger: 'bg-transparent text-status-critical-fg border-[1.5px] border-status-critical-fg/35',
 };
 
 /** Primary and secondary call-to-action button, mobile touch target (min 44px tall). */

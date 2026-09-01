@@ -23,6 +23,12 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveClass('border-brand-gold');
   });
 
+  it('applies danger variant classes when requested', () => {
+    render(<Button variant="danger">Recusar</Button>);
+    expect(screen.getByRole('button')).toHaveClass('text-status-critical-fg');
+    expect(screen.getByRole('button')).toHaveClass('border-status-critical-fg/35');
+  });
+
   it('calls onClick when clicked', async () => {
     const onClick = vi.fn();
     render(<Button onClick={onClick}>Entrar</Button>);

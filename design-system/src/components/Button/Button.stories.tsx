@@ -19,6 +19,11 @@ export const Secondary: Story = {
   args: { variant: 'secondary', children: 'Cancelar' },
 };
 
+/** "Recusar cadastro" — botão danger para ações críticas. */
+export const Danger: Story = {
+  args: { variant: 'danger', children: 'Recusar cadastro' },
+};
+
 export const Disabled: Story = {
   args: { variant: 'primary', children: 'Entrar no sistema', disabled: true },
 };
