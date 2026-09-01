@@ -2,29 +2,45 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Input } from 'mason-connect-design-system';
 import { authClient } from '../../lib/authClient';
-import { useLocalToast } from '../../hooks/useLocalToast';
 import { AcessoLayout } from './AcessoLayout';
-import { LocalToastHost } from './LocalToastHost';
 
 /**
  * Tela real de recuperação de senha (Task 10, `Fase2Acesso.dc.html:42-51`).
- * "Enviar instruções" navega pra `/login` com um toast local pendente (a
- * navegação acontece mesmo que o toast local ainda esteja visível — mesma
- * UX de outras telas do app que navegam com um toast pendente, achado #7 do
- * plano). "Voltar ao login" navega sem toast nenhum.
+ * "Enviar instruções" navega pra `/login` levando a mensagem de toast via
+ * `navigate(..., { state: { toast } })` — MESMO padrão de
+ * `RedefinirSenhaScreen` (`LoginScreen` lê `location.state?.toast` no
+ * mount). Achado de revisão: um `useLocalToast` local aqui não funcionaria
+ * — `showToast()` + `navigate()` síncronos no mesmo handler são batchados
+ * pelo React 18 no mesmo commit, então esta tela (e o `LocalToastHost`
+ * dela) desmontam antes de qualquer frame com o toast visível chegar a
+ * pintar. "Voltar ao login" navega sem `state` nenhum (sem toast).
  */
 export function RecuperarSenhaScreen() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const { toastMessage, showToast } = useLocalToast();
+  const [erro, setErro] = useState<string | null>(null);
 
   async function handleEnviar() {
-    await authClient.requestPasswordReset({
-      email,
-      redirectTo: `${window.location.origin}/redefinir-senha`,
-    });
-    showToast('Instruções enviadas. Verifique sua caixa de entrada.');
-    navigate('/login');
+    setErro(null);
+    await authClient.requestPasswordReset(
+      {
+        email,
+        redirectTo: `${window.location.origin}/redefinir-senha`,
+      },
+      {
+        onSuccess: () => {
+          navigate('/login', { state: { toast: 'Instruções enviadas. Verifique sua caixa de entrada.' } });
+        },
+        onError: () => {
+          // Mensagem genérica de propósito: diferente de LoginScreen, este
+          // endpoint é fire-and-forget por design no servidor (evita
+          // vazar se o e-mail existe via timing attack) — não há uma
+          // mensagem de erro "legítima" do usuário pra repassar aqui, só
+          // falhas reais de rede/servidor.
+          setErro('Ocorreu um erro. Tente novamente.');
+        },
+      },
+    );
   }
 
   return (
@@ -42,6 +58,7 @@ export function RecuperarSenhaScreen() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
+        {erro && <p className="mt-3 text-xs text-status-critical-fg">{erro}</p>}
         <div className="mt-5 flex flex-col gap-2.5">
           <Button variant="primary" fullWidth onClick={handleEnviar}>
             Enviar instruções
@@ -51,7 +68,6 @@ export function RecuperarSenhaScreen() {
           </Button>
         </div>
       </Card>
-      <LocalToastHost message={toastMessage} />
     </AcessoLayout>
   );
 }
