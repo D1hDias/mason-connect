@@ -1,20 +1,68 @@
-import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { MembrosScreen, filterMembers } from './MembrosScreen';
-import { members } from '../../data/members';
+import { members, type Member } from '../../data/members';
+import type { ProfileCategoria } from '../../data/profile';
+import { AppOverlaysProvider } from '../../shell/overlays/AppOverlaysProvider';
+
+// Mutable overrides read by the `vi.mock` factories below. `vi.hoisted`
+// makes them available inside factories despite `vi.mock` hoisting to the
+// top of the file. Both default to `null` (passthrough to the real data),
+// so every pre-existing test in this file is unaffected — only the new
+// tests that explicitly set an override observe different data, and each
+// resets it in its own `afterEach` cleanup below.
+const membersState = vi.hoisted(() => ({ override: null as Member[] | null }));
+const profileState = vi.hoisted(() => ({ override: null as ProfileCategoria | null }));
+
+vi.mock('../../data/members', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../data/members')>();
+  return {
+    ...actual,
+    get members() {
+      return membersState.override ?? actual.members;
+    },
+  };
+});
+
+vi.mock('../../data/profile', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../data/profile')>();
+  return {
+    ...actual,
+    get profile() {
+      return profileState.override ? { ...actual.profile, categoria: profileState.override } : actual.profile;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();
 });
 
+afterEach(() => {
+  membersState.override = null;
+  profileState.override = null;
+});
+
 function renderScreen() {
   return render(
     <MemoryRouter initialEntries={['/membros']}>
-      <MembrosScreen />
+      <AppOverlaysProvider>
+        <MembrosScreen />
+      </AppOverlaysProvider>
     </MemoryRouter>,
   );
+}
+
+/** Scopes queries to the confirm modal identified by its (unique) title text. */
+function withinModal(titleText: string) {
+  const title = screen.getByText(titleText);
+  const container = title.closest('.flex.flex-col.gap-4');
+  if (!container) {
+    throw new Error(`Could not find modal container for "${titleText}"`);
+  }
+  return within(container as HTMLElement);
 }
 
 describe('MembrosScreen', () => {
@@ -106,5 +154,109 @@ describe('filterMembers', () => {
 
   it('reaches the EmptyState branch: a filter value outside the domain empties the list, which no real click sequence can do with the current 6-member dataset', () => {
     expect(filterMembers(members, 'suspenso')).toEqual([]);
+  });
+});
+
+describe('member row — faltas alert', () => {
+  it('shows the "2 faltas seguidas" warning badge for Eduardo Matos (faltas: 2), once per list (mobile + desktop)', () => {
+    renderScreen();
+    expect(screen.getAllByText('2 faltas seguidas')).toHaveLength(2);
+  });
+
+  it('reaches the critical branch: a mocked member with faltas: 3 shows "3 faltas seguidas · crítico" instead of the warning badge', () => {
+    membersState.override = [
+      { name: 'Membro Crítico', role: 'Teste · Plano Mensal', status: 'ativo', faltas: 3 },
+    ];
+    renderScreen();
+    expect(screen.getAllByText('3 faltas seguidas · crítico')).toHaveLength(2);
+    expect(screen.queryByText('2 faltas seguidas')).not.toBeInTheDocument();
+  });
+});
+
+describe('member row — approval decision buttons (gestor gate)', () => {
+  it('shows "Aprovar cadastro" and "Recusar" for pending members when profile.categoria is "gestor"', () => {
+    renderScreen();
+    // Jackson Pereira and Davi Lopes are the 2 pending members, each rendered once
+    // in the mobile list and once in the desktop list.
+    expect(screen.getAllByRole('button', { name: 'Aprovar cadastro' })).toHaveLength(4);
+    expect(screen.getAllByRole('button', { name: 'Recusar' })).toHaveLength(4);
+  });
+
+  it('reaches the non-gestor branch: with profile.categoria mocked to a non-"gestor" value, no member shows the decision buttons', () => {
+    profileState.override = 'empresario';
+    renderScreen();
+    expect(screen.queryByRole('button', { name: 'Aprovar cadastro' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Recusar' })).not.toBeInTheDocument();
+  });
+});
+
+describe('approval flow', () => {
+  it('"Aprovar cadastro" opens a confirm modal with the right copy; confirming approves the member, hides the decision buttons, and shows the success toast', async () => {
+    const user = userEvent.setup();
+    renderScreen();
+
+    const jacksonRow = screen.getByText('Jackson Pereira').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    await user.click(within(jacksonRow).getByRole('button', { name: 'Aprovar cadastro' }));
+
+    expect(screen.getByText('Aprovar o cadastro de Jackson Pereira?')).toBeInTheDocument();
+    expect(
+      screen.getByText('A aprovação é definitiva e dá acesso imediato ao núcleo. Cadeira: Seguros · Plano Mensal.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Registra autor, data e hora na trilha de auditoria (RN-02 · RN-33).'),
+    ).toBeInTheDocument();
+
+    const modal = withinModal('Aprovar o cadastro de Jackson Pereira?');
+    await user.click(modal.getByRole('button', { name: 'Aprovar cadastro' }));
+
+    expect(screen.queryByText('Aprovar o cadastro de Jackson Pereira?')).not.toBeInTheDocument();
+    expect(
+      screen.getByText('Jackson Pereira foi aprovado. O padrinho já pode iniciar o onboarding.'),
+    ).toBeInTheDocument();
+
+    const updatedRow = screen.getByText('Jackson Pereira').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    expect(within(updatedRow).queryByRole('button', { name: 'Aprovar cadastro' })).not.toBeInTheDocument();
+    expect(within(updatedRow).queryByRole('button', { name: 'Recusar' })).not.toBeInTheDocument();
+    expect(within(updatedRow).getByText('Ativo')).toBeInTheDocument();
+  });
+
+  it('"Recusar" opens a confirm modal asking for a motivo; confirming shows the toast without changing the member\'s status', async () => {
+    const user = userEvent.setup();
+    renderScreen();
+
+    const daviRow = screen.getByText('Davi Lopes').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    await user.click(within(daviRow).getByRole('button', { name: 'Recusar' }));
+
+    expect(screen.getByText('Recusar o cadastro de Davi Lopes?')).toBeInTheDocument();
+    expect(screen.getByLabelText('Motivo (opcional)')).toBeInTheDocument();
+
+    const modal = withinModal('Recusar o cadastro de Davi Lopes?');
+    await user.click(modal.getByRole('button', { name: 'Recusar cadastro' }));
+
+    expect(screen.queryByText('Recusar o cadastro de Davi Lopes?')).not.toBeInTheDocument();
+    expect(screen.getByText('Cadastro de Davi Lopes recusado.')).toBeInTheDocument();
+
+    // Status is unchanged: Davi Lopes is still pending, decision buttons still visible.
+    const updatedRow = screen.getByText('Davi Lopes').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    expect(within(updatedRow).getByRole('button', { name: 'Aprovar cadastro' })).toBeInTheDocument();
+    expect(within(updatedRow).getByRole('button', { name: 'Recusar' })).toBeInTheDocument();
+    expect(within(updatedRow).getByText('Pendente')).toBeInTheDocument();
+  });
+
+  it('clicking "Cancelar" on the confirm modal closes it without changing anything', async () => {
+    const user = userEvent.setup();
+    renderScreen();
+
+    const jacksonRow = screen.getByText('Jackson Pereira').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    await user.click(within(jacksonRow).getByRole('button', { name: 'Aprovar cadastro' }));
+
+    const modal = withinModal('Aprovar o cadastro de Jackson Pereira?');
+    await user.click(modal.getByRole('button', { name: 'Cancelar' }));
+
+    expect(screen.queryByText('Aprovar o cadastro de Jackson Pereira?')).not.toBeInTheDocument();
+
+    const updatedRow = screen.getByText('Jackson Pereira').closest('div.flex.flex-col.gap-2') as HTMLElement;
+    expect(within(updatedRow).getByRole('button', { name: 'Aprovar cadastro' })).toBeInTheDocument();
+    expect(within(updatedRow).getByText('Pendente')).toBeInTheDocument();
   });
 });
