@@ -5,6 +5,7 @@ import { MembrosScreen } from './screens/Membros';
 import { FinanceiroScreen } from './screens/Financeiro';
 import { PerfilScreen } from './screens/Perfil';
 import { PresencaScreen } from './screens/Presenca';
+import { IndicacoesScreen } from './screens/Indicacoes';
 import { LoginScreen, RecuperarSenhaScreen, RedefinirSenhaScreen } from './screens/Acesso';
 import { OnboardingScreen } from './screens/Onboarding';
 
@@ -21,7 +22,9 @@ import { OnboardingScreen } from './screens/Onboarding';
  * #14 do plano). `/onboarding` também não entra em `navItems`/`moduleItems`
  * (achado #5 do plano) — só alcançável por navegação direta. `/` e o
  * catch-all `*` continuam apontando pra `/painel`: ainda não há gate de
- * sessão (achado #20 do plano, fora de escopo aqui).
+ * sessão (achado #20 do plano, fora de escopo aqui). `/indicacoes` (Task
+ * 13) segue o mesmo padrão de `/presenca`: dentro do `AppShell`, sem gate
+ * de perfil.
  */
 export function AppRoutes() {
   return (
@@ -33,6 +36,7 @@ export function AppRoutes() {
         <Route path="/financeiro" element={<FinanceiroScreen />} />
         <Route path="/perfil" element={<PerfilScreen />} />
         <Route path="/presenca" element={<PresencaScreen />} />
+        <Route path="/indicacoes" element={<IndicacoesScreen />} />
       </Route>
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/recuperar-senha" element={<RecuperarSenhaScreen />} />
