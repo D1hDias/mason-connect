@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
-import { Chip } from './Chip';
+import { Chip, ChipEstado } from './Chip';
 
 describe('Chip', () => {
   afterEach(() => {
@@ -20,7 +20,7 @@ describe('Chip', () => {
   });
 
   it('applies text color classes for each state', () => {
-    const testCases: Array<[typeof estado, string]> = [
+    const testCases: Array<[ChipEstado, string]> = [
       ['presente', 'text-presence-presente-fg'],
       ['falta', 'text-presence-falta-fg'],
       ['justificada', 'text-presence-justificada-fg'],
