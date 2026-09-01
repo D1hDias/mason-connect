@@ -6,6 +6,7 @@ import { FinanceiroScreen } from './screens/Financeiro';
 import { PerfilScreen } from './screens/Perfil';
 import { PresencaScreen } from './screens/Presenca';
 import { IndicacoesScreen } from './screens/Indicacoes';
+import { ConfigScreen } from './screens/Config';
 import { LoginScreen, RecuperarSenhaScreen, RedefinirSenhaScreen } from './screens/Acesso';
 import { OnboardingScreen } from './screens/Onboarding';
 
@@ -24,7 +25,10 @@ import { OnboardingScreen } from './screens/Onboarding';
  * catch-all `*` continuam apontando pra `/painel`: ainda não há gate de
  * sessão (achado #20 do plano, fora de escopo aqui). `/indicacoes` (Task
  * 13) segue o mesmo padrão de `/presenca`: dentro do `AppShell`, sem gate
- * de perfil.
+ * de perfil. `/config` (Task 14) também fica dentro do `AppShell`, mas com
+ * gate de perfil próprio (`canEditConfig`, dentro da própria tela): só o
+ * perfil `'gestor'` edita os parâmetros do grupo, os demais veem o
+ * `EmptyState`.
  */
 export function AppRoutes() {
   return (
@@ -37,6 +41,7 @@ export function AppRoutes() {
         <Route path="/perfil" element={<PerfilScreen />} />
         <Route path="/presenca" element={<PresencaScreen />} />
         <Route path="/indicacoes" element={<IndicacoesScreen />} />
+        <Route path="/config" element={<ConfigScreen />} />
       </Route>
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/recuperar-senha" element={<RecuperarSenhaScreen />} />
