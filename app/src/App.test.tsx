@@ -86,3 +86,48 @@ describe('AppRoutes', () => {
     }
   });
 });
+
+/**
+ * The 4 standalone routes (Task 10/11) sit outside `AppShell` in `routes.tsx`
+ * — they get their own `AcessoLayout`/`OnboardingHeader`, never the shared
+ * `BottomNav`/sidebar. Each screen's own test file mounts it in isolation
+ * (a local `<Routes>` with just itself + the route it navigates to), so none
+ * of them exercises the real routing tree and none asserts the shell is
+ * actually absent — the gestão screens have an explicit "renders inside
+ * AppShell, not standalone" counterpart (`PresencaScreen.test.tsx` etc.) but
+ * these 4 didn't have the inverse. Filling that gap here, through the real
+ * `AppRoutes`, the same way the gestão screens' route-integration tests do.
+ */
+describe('AppRoutes — standalone routes render without the AppShell', () => {
+  it('/login has no BottomNav/sidebar chrome', () => {
+    renderApp('/login');
+
+    expect(screen.getByText('Entrar', { selector: 'p' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Painel' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Membros' })).not.toBeInTheDocument();
+  });
+
+  it('/recuperar-senha has no BottomNav/sidebar chrome', () => {
+    renderApp('/recuperar-senha');
+
+    expect(screen.getByText('Recuperar senha', { selector: 'p' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Painel' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Membros' })).not.toBeInTheDocument();
+  });
+
+  it('/redefinir-senha has no BottomNav/sidebar chrome', () => {
+    renderApp('/redefinir-senha?token=abc123');
+
+    expect(screen.getByText('Definir nova senha', { selector: 'p' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Painel' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Membros' })).not.toBeInTheDocument();
+  });
+
+  it('/onboarding has no BottomNav/sidebar chrome', () => {
+    renderApp('/onboarding');
+
+    expect(screen.getByText('Onboarding do núcleo')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Painel' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Membros' })).not.toBeInTheDocument();
+  });
+});
