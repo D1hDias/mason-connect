@@ -7,6 +7,7 @@ import { PerfilScreen } from './screens/Perfil';
 import { PresencaScreen } from './screens/Presenca';
 import { IndicacoesScreen } from './screens/Indicacoes';
 import { ConfigScreen } from './screens/Config';
+import { CondutaScreen } from './screens/Conduta';
 import { LoginScreen, RecuperarSenhaScreen, RedefinirSenhaScreen } from './screens/Acesso';
 import { OnboardingScreen } from './screens/Onboarding';
 
@@ -28,6 +29,9 @@ import { OnboardingScreen } from './screens/Onboarding';
  * de perfil. `/config` (Task 14) também fica dentro do `AppShell`, mas com
  * gate de perfil próprio (`canEditConfig`, dentro da própria tela): só o
  * perfil `'gestor'` edita os parâmetros do grupo, os demais veem o
+ * `EmptyState`. `/conduta` (Task 15, última tela individual do plano)
+ * segue o mesmo padrão: dentro do `AppShell`, com gate próprio
+ * (`canViewConduta`) — só `'gestor'` vê as ocorrências, os demais veem o
  * `EmptyState`.
  */
 export function AppRoutes() {
@@ -42,6 +46,7 @@ export function AppRoutes() {
         <Route path="/presenca" element={<PresencaScreen />} />
         <Route path="/indicacoes" element={<IndicacoesScreen />} />
         <Route path="/config" element={<ConfigScreen />} />
+        <Route path="/conduta" element={<CondutaScreen />} />
       </Route>
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/recuperar-senha" element={<RecuperarSenhaScreen />} />
