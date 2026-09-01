@@ -1,0 +1,1 @@
+export { PresencaScreen } from './PresencaScreen';
