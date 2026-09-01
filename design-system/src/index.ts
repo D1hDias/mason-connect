@@ -16,3 +16,4 @@ export * from './components/EmptyState';
 export * from './components/BottomNav';
 export * from './components/TrendLineChart';
 export * from './components/CategoryBarChart';
+export * from './components/Modal';
