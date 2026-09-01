@@ -3,6 +3,7 @@ import { MobileHeader } from './MobileHeader';
 import { MobileBottomNav } from './MobileBottomNav';
 import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopTopbar } from './DesktopTopbar';
+import { AppOverlaysProvider } from './overlays/AppOverlaysProvider';
 
 /**
  * Single shared content column with ONE `<Outlet/>` — each screen mounts
@@ -35,27 +36,29 @@ import { DesktopTopbar } from './DesktopTopbar';
  */
 export function AppShell() {
   return (
-    <div className="flex h-[100dvh] bg-brand-cream">
-      <div className="hidden md:flex">
-        <DesktopSidebar />
-      </div>
-
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <div className="md:hidden">
-          <MobileHeader />
-        </div>
+    <AppOverlaysProvider>
+      <div className="flex h-[100dvh] bg-brand-cream">
         <div className="hidden md:flex">
-          <DesktopTopbar />
+          <DesktopSidebar />
         </div>
 
-        <main className="min-h-0 flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <div className="md:hidden">
+            <MobileHeader />
+          </div>
+          <div className="hidden md:flex">
+            <DesktopTopbar />
+          </div>
 
-        <div className="md:hidden">
-          <MobileBottomNav />
+          <main className="min-h-0 flex-1 overflow-y-auto">
+            <Outlet />
+          </main>
+
+          <div className="md:hidden">
+            <MobileBottomNav />
+          </div>
         </div>
       </div>
-    </div>
+    </AppOverlaysProvider>
   );
 }
