@@ -37,6 +37,16 @@ module.exports = {
           positive: 'var(--mc-finance-positive)',
           negative: 'var(--mc-finance-negative)',
         },
+        presence: {
+          'presente-bg': 'var(--mc-presence-presente-bg)',
+          'presente-fg': 'var(--mc-presence-presente-fg)',
+          'falta-bg': 'var(--mc-presence-falta-bg)',
+          'falta-fg': 'var(--mc-presence-falta-fg)',
+          'justificada-bg': 'var(--mc-presence-justificada-bg)',
+          'justificada-fg': 'var(--mc-presence-justificada-fg)',
+          'representado-bg': 'var(--mc-presence-representado-bg)',
+          'representado-fg': 'var(--mc-presence-representado-fg)',
+        },
       },
       fontFamily: {
         heading: ['Georgia', 'Times New Roman', 'serif'],

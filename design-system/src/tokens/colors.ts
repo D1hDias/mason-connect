@@ -60,3 +60,15 @@ export const financeColors = {
   positive: '#2F6B3D',
   negative: '#8A2B2B',
 } as const;
+
+/**
+ * Presence state colors for displaying attendance status (Chip component, Fase2Gestao.dc.html:12).
+ * Four semantic states: presente, falta, justificada, representado.
+ * Each state has background and foreground color pairs.
+ */
+export const presenceColors = {
+  presente: { bg: '#e4ebd9', fg: '#2f6b3d' },
+  falta: { bg: '#f6e3d9', fg: '#8a2b2b' },
+  justificada: { bg: '#f3e4c8', fg: '#8a6a1f' },
+  representado: { bg: '#f0e6cf', fg: '#8a6a3f' },
+} as const;

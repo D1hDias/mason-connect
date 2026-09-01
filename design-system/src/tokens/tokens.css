@@ -49,6 +49,11 @@
   --mc-finance-positive: #2F6B3D;
   --mc-finance-negative: #8A2B2B;
 
+  --mc-presence-presente-bg: #e4ebd9; --mc-presence-presente-fg: #2f6b3d;
+  --mc-presence-falta-bg: #f6e3d9; --mc-presence-falta-fg: #8a2b2b;
+  --mc-presence-justificada-bg: #f3e4c8; --mc-presence-justificada-fg: #8a6a1f;
+  --mc-presence-representado-bg: #f0e6cf; --mc-presence-representado-fg: #8a6a3f;
+
   --mc-font-tabular: 'IBM Plex Sans', var(--mc-font-body);
 }
 
