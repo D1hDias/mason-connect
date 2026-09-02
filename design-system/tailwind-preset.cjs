@@ -13,11 +13,16 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          brown: 'var(--mc-brown)',
-          gold: 'var(--mc-gold)',
-          cream: 'var(--mc-cream)',
-          ebony: 'var(--mc-ebony)',
-          bronze: 'var(--mc-bronze)',
+          // `rgb(var(--x-rgb) / <alpha-value>)`, não `var(--mc-x)` direto:
+          // permite `text-brand-cream/70` etc. compor opacidade de verdade
+          // (Tailwind substitui `<alpha-value>` por `1` sem modificador, ou
+          // pela fração do `/NN` — precisa dos 3 canais separados em
+          // `--mc-x-rgb`, ver comentário em tokens.css).
+          brown: 'rgb(var(--mc-brown-rgb) / <alpha-value>)',
+          gold: 'rgb(var(--mc-gold-rgb) / <alpha-value>)',
+          cream: 'rgb(var(--mc-cream-rgb) / <alpha-value>)',
+          ebony: 'rgb(var(--mc-ebony-rgb) / <alpha-value>)',
+          bronze: 'rgb(var(--mc-bronze-rgb) / <alpha-value>)',
         },
         surface: 'var(--mc-surface)',
         border: 'var(--mc-border)',

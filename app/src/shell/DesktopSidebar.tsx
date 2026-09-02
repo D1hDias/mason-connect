@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import logoSymbol from '../assets/logo-symbol.png';
 import { meetings } from '../data/meetings';
 import { profile } from '../data/profile';
+import { navIcon } from './nav-icons';
 import { moduleItems } from './screens-meta';
 
 /**
@@ -9,6 +10,12 @@ import { moduleItems } from './screens-meta';
  * 248px fixo, sempre expandida (sem toggle de colapsar — achado #6). O
  * card "Próximo encontro" no rodapé usa o primeiro item de `meetings.ts`
  * diretamente, sem duplicar o texto em outro lugar.
+ *
+ * Ícones de `nav-icons.tsx` no lugar da bolinha (`.mc-dot`) original —
+ * `currentColor` acompanha a cor do texto (ativo/inativo) sem variante
+ * própria. Texto inativo trocado de `text-brand-cream/80` pra `text-brand-
+ * cream` cheio: a opacidade dava 4.42:1 de contraste sobre `bg-brand-brown`,
+ * abaixo do mínimo AA de 4.5:1 pra texto normal — cheio sobe pra 5.89:1.
  */
 export function DesktopSidebar() {
   const { pathname } = useLocation();
@@ -41,12 +48,10 @@ export function DesktopSidebar() {
               className={`flex min-h-[48px] items-center gap-3 rounded-lg px-4 text-left text-sm font-semibold transition-colors ${
                 active
                   ? 'bg-brand-cream text-brand-brown'
-                  : 'text-brand-cream/80 hover:bg-brand-cream/10 hover:text-brand-cream'
+                  : 'text-brand-cream hover:bg-brand-cream/10'
               }`}
             >
-              <span
-                className={`h-[7px] w-[7px] flex-none rounded-full ${active ? 'bg-brand-brown' : 'bg-brand-gold'}`}
-              />
+              {navIcon(item.path)}
               {item.label}
             </button>
           );

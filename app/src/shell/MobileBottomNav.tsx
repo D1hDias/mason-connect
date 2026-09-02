@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BottomNav, NavTab } from 'mason-connect-design-system';
+import { navIcon } from './nav-icons';
 import { navItems } from './screens-meta';
 
 /**
@@ -21,6 +22,7 @@ export function MobileBottomNav() {
           <NavTab
             key={item.path}
             label={item.label}
+            icon={navIcon(item.path)}
             active={pathname === item.path}
             onClick={() => navigate(item.path)}
           />

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoSymbol from '../../assets/logo-symbol.png';
 import { profile } from '../../data/profile';
+import { navIcon } from '../nav-icons';
 import { moduleItems } from '../screens-meta';
 import { useAppOverlaysContext } from './context';
 
@@ -91,12 +92,10 @@ export function Drawer() {
                 className={`flex min-h-[48px] items-center gap-3 rounded-lg px-4 text-left text-sm font-semibold transition-colors ${
                   active
                     ? 'bg-brand-cream text-brand-brown'
-                    : 'text-brand-cream/80 hover:bg-brand-cream/10 hover:text-brand-cream'
+                    : 'text-brand-cream hover:bg-brand-cream/10'
                 }`}
               >
-                <span
-                  className={`h-[7px] w-[7px] flex-none rounded-full ${active ? 'bg-brand-brown' : 'bg-brand-gold'}`}
-                />
+                {navIcon(item.path)}
                 {item.label}
               </button>
             );

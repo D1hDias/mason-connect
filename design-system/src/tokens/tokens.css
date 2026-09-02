@@ -5,6 +5,23 @@
   --mc-ebony: #2B1D0A;
   --mc-bronze: #9C8C6E;
 
+  /*
+   * Mesmas 5 cores acima, como canais RGB separados por espaço (sem "#",
+   * sem `rgb()`) — formato que o `rgb(var(--x) / <alpha-value>)` do
+   * `tailwind-preset.cjs` precisa pra compor opacidade. Tailwind não sabe
+   * decompor uma string hex em tempo de build (a cor só existe como
+   * variável CSS em tempo de execução), então `text-brand-cream/70` sobre
+   * `--mc-cream: #F7F1E4` direto vira `rgb(#F7F1E4 / 70%)` — CSS inválido,
+   * a regra inteira é descartada e o elemento cai no preto padrão do
+   * navegador. Mantidas em sincronia manualmente com as 5 hex acima (sem
+   * pré-processador pra derivar uma da outra).
+   */
+  --mc-brown-rgb: 133 80 35;
+  --mc-gold-rgb: 202 170 103;
+  --mc-cream-rgb: 247 241 228;
+  --mc-ebony-rgb: 43 29 10;
+  --mc-bronze-rgb: 156 140 110;
+
   --mc-navy: #1A1F2E;
   --mc-navy-2: #243352;
   --mc-deck-gold: #B8952A;
