@@ -24,7 +24,7 @@ export function canViewConduta(categoria: ProfileCategoria): boolean {
   return categoria === 'gestor';
 }
 
-/** Uma linha de `List` "Ocorrências registradas" — 3 linhas empilhadas (`:238-246`), não cabe no `title`/`subtitle` de 2 linhas de `ListRow`. */
+/** Uma linha de `List` "Ocorrências recentes" — 3 linhas empilhadas (`:238-246`), não cabe no `title`/`subtitle` de 2 linhas de `ListRow`. */
 function OcorrenciaRow({ ocorrencia, className }: { ocorrencia: Ocorrencia; className?: string }) {
   return (
     <div className={`flex flex-col gap-2 px-5 py-3.5 ${className ?? ''}`}>
@@ -107,7 +107,7 @@ export function CondutaScreen() {
             <Stat label="Em revisão" value="1" hint="atingiu 3 validadas" tone="default" />
           </div>
 
-          <List header="Ocorrências registradas">
+          <List header="Ocorrências recentes">
             {ocorrencias.map((ocorrencia) => (
               <OcorrenciaRow key={ocorrencia.key} ocorrencia={ocorrencia} />
             ))}

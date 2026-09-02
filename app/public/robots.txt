@@ -1,0 +1,8 @@
+# A demo pública do Mason Connect não deve ser indexada: as telas de gestão
+# (notadamente /conduta, "Ocorrências de Conduta") exibem registros nominais
+# sob cabeçalho "Documento confidencial". Os dados são fictícios, mas a
+# página não tem gate de sessão e não deve aparecer em buscador.
+# Ver também a meta `robots` em index.html — buscadores que ignoram este
+# arquivo ainda leem a meta tag.
+User-agent: *
+Disallow: /

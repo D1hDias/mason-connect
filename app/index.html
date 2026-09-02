@@ -12,6 +12,12 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="icon" type="image/png" href="/pwa-192x192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Não indexar: a aplicação ainda não tem gate de sessão, então todas as
+         telas de gestão (incl. /conduta, com registros nominais sob cabeçalho
+         "Documento confidencial") ficam públicas em qualquer deploy. Dados
+         fictícios, mas fora de buscador. Reforça o public/robots.txt.
+         Remover quando existir autenticação de verdade na frente do app. -->
+    <meta name="robots" content="noindex, nofollow" />
     <title>Mason Connect</title>
   </head>
   <body>

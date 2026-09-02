@@ -148,6 +148,12 @@ export function MembrosScreen() {
     });
   };
 
+  // Sem fluxo de convite real neste escopo — retorno visual em vez de
+  // botão inerte.
+  const handleConvidar = () => {
+    showToast('Convite enviado. O candidato recebe o link de cadastro por e-mail.');
+  };
+
   const handleReject = (member: Member) => {
     confirm({
       titulo: `Recusar o cadastro de ${member.name}?`,
@@ -174,7 +180,9 @@ export function MembrosScreen() {
           onChange={(value) => setFilter(value as MemberFilterValue)}
         />
         <div className="hidden md:block">
-          <Button variant="primary">Convidar novo membro</Button>
+          <Button variant="primary" onClick={handleConvidar}>
+            Convidar novo membro
+          </Button>
         </div>
       </div>
 
@@ -188,7 +196,7 @@ export function MembrosScreen() {
         />
       </div>
       <div className="md:hidden">
-        <Button variant="secondary" fullWidth>
+        <Button variant="secondary" fullWidth onClick={handleConvidar}>
           Convidar novo membro
         </Button>
       </div>

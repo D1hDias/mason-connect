@@ -35,8 +35,8 @@ describe('PainelScreen', () => {
 
   it('renders the meetings list twice (mobile 2 rows, desktop 3 rows with the desktopOnly item)', () => {
     renderScreen();
-    // "Coworking de agosto" isn't desktopOnly, so it renders in both the mobile and desktop lists.
-    expect(screen.getAllByText('Coworking de agosto')).toHaveLength(2);
+    // "Coworking de setembro" isn't desktopOnly, so it renders in both the mobile and desktop lists.
+    expect(screen.getAllByText('Coworking de setembro')).toHaveLength(2);
     expect(screen.getAllByText('Rodada de indicações')).toHaveLength(2);
     // "Jantar de encerramento" is desktopOnly, so it renders only once (the desktop list).
     expect(screen.getByText('Jantar de encerramento')).toBeInTheDocument();

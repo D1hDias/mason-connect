@@ -8,6 +8,7 @@ import {
   SectionTitle,
   Stat,
 } from 'mason-connect-design-system';
+import { useToast } from '../../shell/overlays/AppOverlaysProvider';
 import { screensMeta } from '../../shell/screens-meta';
 import { filterForSurface } from '../../data/surface';
 import { financeEntries, type FinanceEntry } from '../../data/finance';
@@ -68,10 +69,16 @@ function ExtratoList({ isDesktop }: { isDesktop: boolean }) {
  * ao mesmo tempo (ver comentário em `data/referrals.ts`). Financeiro desktop
  * não tem gráfico algum.
  *
- * Os botões "Registrar lançamento"/"Exportar extrato" são no-op — sem
- * handler de submissão real, só o visual do protótipo.
+ * Os botões "Registrar lançamento"/"Exportar extrato" ainda não persistem
+ * nada — só emitem `Toast`, para não ficarem inertes ao clique.
  */
 export function FinanceiroScreen() {
+  // Sem persistência real neste escopo — os dois botões dão retorno visual
+  // em vez de ficarem inertes (clicar e não ver nada lê como bug).
+  const { showToast } = useToast();
+  const handleRegistrar = () => showToast('Lançamento registrado na competência atual.');
+  const handleExportar = () => showToast('Extrato exportado. O arquivo foi enviado para o seu e-mail.');
+
   return (
     <div className="flex flex-col gap-4 px-4 py-5 md:gap-5 md:px-8 md:py-7">
       <div className="md:hidden">
@@ -98,7 +105,7 @@ export function FinanceiroScreen() {
         <ExtratoList isDesktop={false} />
       </div>
       <div className="md:hidden">
-        <Button variant="primary" fullWidth>
+        <Button variant="primary" fullWidth onClick={handleRegistrar}>
           Registrar lançamento
         </Button>
       </div>
@@ -111,10 +118,10 @@ export function FinanceiroScreen() {
             <ProgressBar label="Mensalidades recebidas" value={22} percent={22 / 24} tone="success" />
             <ProgressBar label="Boletos emitidos" value={24} percent={24 / 24} tone="accent" />
           </Card>
-          <Button variant="primary" fullWidth>
+          <Button variant="primary" fullWidth onClick={handleRegistrar}>
             Registrar lançamento
           </Button>
-          <Button variant="secondary" fullWidth>
+          <Button variant="secondary" fullWidth onClick={handleExportar}>
             Exportar extrato
           </Button>
         </div>

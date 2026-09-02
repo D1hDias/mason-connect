@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { PerfilScreen } from './PerfilScreen';
+import { AppOverlaysProvider } from '../../shell/overlays/AppOverlaysProvider';
 
 afterEach(() => {
   cleanup();
@@ -11,7 +12,9 @@ afterEach(() => {
 function renderScreen() {
   return render(
     <MemoryRouter initialEntries={['/perfil']}>
-      <PerfilScreen />
+      <AppOverlaysProvider>
+        <PerfilScreen />
+      </AppOverlaysProvider>
     </MemoryRouter>,
   );
 }

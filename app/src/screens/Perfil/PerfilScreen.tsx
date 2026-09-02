@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Avatar, Badge, Button, Card, Input, Select } from 'mason-connect-design-system';
+import { useConfirmModal, useToast } from '../../shell/overlays/AppOverlaysProvider';
 import { profile } from '../../data/profile';
 import { nucleos } from '../../data/nucleos';
 import type { PlanoTipo } from '../../data/nucleos';
@@ -135,11 +136,14 @@ function MeusDadosCard({
  * confundir com a grade interna `md:grid-cols-2` dos campos do card "Meus
  * dados", que é um detalhe totalmente separado.
  *
- * Inputs controlados via `useState`, sem validação nenhuma. "Salvar
- * alterações" e "Sair da conta" são no-ops explícitos — sem persistência
- * real neste escopo, sem navegação, sem toast.
+ * Inputs controlados via `useState`, sem validação nenhuma. Ainda sem
+ * persistência real: "Salvar alterações" e "Sair da conta" dão feedback via
+ * `Toast`/`ConfirmModal` em vez de serem no-ops silenciosos — clicar e não
+ * ver nada acontecer lê como bug, não como escopo pendente.
  */
 export function PerfilScreen() {
+  const { showToast } = useToast();
+  const { confirm } = useConfirmModal();
   const [form, setForm] = useState<PerfilFormState>(() => ({
     name: profile.name,
     email: PLACEHOLDER_EMAIL,
@@ -151,11 +155,22 @@ export function PerfilScreen() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  // Sem persistência real neste escopo.
-  function handleSalvar() {}
+  // Sem persistência real neste escopo — só o retorno visual.
+  function handleSalvar() {
+    showToast('Alterações salvas no seu perfil.');
+  }
 
-  // Sem persistência real neste escopo.
-  function handleSair() {}
+  // Sem sessão real modelada aqui (ver `lib/authClient.ts`) — confirma e
+  // devolve o feedback, sem navegar para `/login`.
+  function handleSair() {
+    confirm({
+      titulo: 'Sair da conta?',
+      corpo: 'Você precisará entrar novamente para acessar o núcleo.',
+      nota: 'Alterações não salvas neste formulário serão perdidas.',
+      acao: 'Sair da conta',
+      onConfirm: () => showToast('Sessão encerrada.'),
+    });
+  }
 
   return (
     <div className="flex flex-col gap-4 px-4 py-5 md:gap-5 md:px-8 md:py-7">

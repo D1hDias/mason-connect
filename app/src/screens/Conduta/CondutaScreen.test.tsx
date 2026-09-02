@@ -102,7 +102,7 @@ describe('CondutaScreen — branch liberado (profile.categoria is "gestor")', ()
     expect(screen.getByText('atingiu 3 validadas')).toBeInTheDocument();
   });
 
-  it('shows the "Ocorrências registradas" header and the 4 entries with membro/tipo/descricao/rodape/badge', () => {
+  it('shows the "Ocorrências recentes" header and the 4 entries with membro/tipo/descricao/rodape/badge', () => {
     renderScreen();
 
     expect(ocorrencias).toHaveLength(4);
@@ -111,10 +111,10 @@ describe('CondutaScreen — branch liberado (profile.categoria is "gestor")', ()
     // the "Registrar ocorrência" form's Membro/Tipo selects below (e.g.
     // "Renata Vieira" and "Pressão agressiva" are option labels too), so a
     // page-wide `getByText` would find duplicates.
-    const header = screen.getByText('Ocorrências registradas');
+    const header = screen.getByText('Ocorrências recentes');
     const list = header.closest('.bg-surface.rounded-lg.overflow-hidden.shadow');
     if (!list) {
-      throw new Error('Could not find the "Ocorrências registradas" List container');
+      throw new Error('Could not find the "Ocorrências recentes" List container');
     }
     const listScope = within(list as HTMLElement);
 
@@ -190,7 +190,7 @@ describe('CondutaScreen — branch bloqueado (profile.categoria is not "gestor")
 
     expect(screen.queryByText('Documento confidencial')).not.toBeInTheDocument();
     expect(screen.queryByText('Registros no ano')).not.toBeInTheDocument();
-    expect(screen.queryByText('Ocorrências registradas')).not.toBeInTheDocument();
+    expect(screen.queryByText('Ocorrências recentes')).not.toBeInTheDocument();
     expect(screen.queryByText('Registrar ocorrência')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Registrar' })).not.toBeInTheDocument();
   });
@@ -200,7 +200,7 @@ describe('CondutaScreen — branch bloqueado (profile.categoria is not "gestor")
     renderScreen();
 
     expect(screen.getByText('Este registro é visível apenas ao perfil Gestor.')).toBeInTheDocument();
-    expect(screen.queryByText('Ocorrências registradas')).not.toBeInTheDocument();
+    expect(screen.queryByText('Ocorrências recentes')).not.toBeInTheDocument();
   });
 });
 
@@ -213,7 +213,7 @@ describe('CondutaScreen — route integration', () => {
     );
 
     // Distinguishing content of the screen itself.
-    expect(screen.getByText('Ocorrências registradas')).toBeInTheDocument();
+    expect(screen.getByText('Ocorrências recentes')).toBeInTheDocument();
 
     expect(screen.getAllByRole('button', { name: 'Painel' })).toHaveLength(2);
     const condutaNav = screen.getByRole('button', { name: 'Conduta' });

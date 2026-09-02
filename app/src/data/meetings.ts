@@ -18,20 +18,20 @@ export interface Meeting {
 
 export const meetings: Meeting[] = [
   {
-    title: 'Coworking de agosto',
-    dateLabel: 'Quinta, 13 de agosto · 19h',
+    title: 'Coworking de setembro',
+    dateLabel: 'Quinta, 10 de setembro · 19h',
     venue: 'Café da Praça',
     status: 'confirmado',
   },
   {
     title: 'Rodada de indicações',
-    dateLabel: 'Terça, 25 de agosto · 8h',
+    dateLabel: 'Terça, 22 de setembro · 8h',
     venue: 'Sede',
     status: 'pendente',
   },
   {
     title: 'Jantar de encerramento',
-    dateLabel: 'Sexta, 4 de setembro · 20h',
+    dateLabel: 'Sexta, 2 de outubro · 20h',
     status: 'aguardando',
     desktopOnly: true,
   },

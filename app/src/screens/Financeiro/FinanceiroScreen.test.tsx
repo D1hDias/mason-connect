@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { FinanceiroScreen } from './FinanceiroScreen';
+import { AppOverlaysProvider } from '../../shell/overlays/AppOverlaysProvider';
 
 afterEach(() => {
   cleanup();
@@ -10,7 +11,9 @@ afterEach(() => {
 function renderScreen() {
   return render(
     <MemoryRouter initialEntries={['/financeiro']}>
-      <FinanceiroScreen />
+      <AppOverlaysProvider>
+        <FinanceiroScreen />
+      </AppOverlaysProvider>
     </MemoryRouter>,
   );
 }
