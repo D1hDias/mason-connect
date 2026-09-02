@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Card, Input } from 'mason-connect-design-system';
 import { authClient } from '../../lib/authClient';
@@ -28,6 +28,7 @@ export function RedefinirSenhaScreen() {
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [erro, setErro] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleSalvar() {
     if (!token) {
@@ -38,17 +39,27 @@ export function RedefinirSenhaScreen() {
       return;
     }
     setErro(null);
-    await authClient.resetPassword(
-      { newPassword: novaSenha, token },
-      {
-        onSuccess: () => {
-          navigate('/login', { state: { toast: 'Senha redefinida. Entre com a nova senha.' } });
+    setSubmitting(true);
+    try {
+      await authClient.resetPassword(
+        { newPassword: novaSenha, token },
+        {
+          onSuccess: () => {
+            navigate('/login', { state: { toast: 'Senha redefinida. Entre com a nova senha.' } });
+          },
+          onError: (ctx) => {
+            setErro(ctx.error.message || 'Ocorreu um erro. Tente novamente.');
+          },
         },
-        onError: (ctx) => {
-          setErro(ctx.error.message || 'Ocorreu um erro. Tente novamente.');
-        },
-      },
-    );
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    void handleSalvar();
   }
 
   return (
@@ -60,28 +71,30 @@ export function RedefinirSenhaScreen() {
             Link inválido ou expirado. Solicite uma nova recuperação de senha.
           </p>
         )}
-        <div className="flex flex-col gap-3.5">
-          <Input
-            label="Nova senha"
-            type="password"
-            autoComplete="new-password"
-            value={novaSenha}
-            onChange={(event) => setNovaSenha(event.target.value)}
-          />
-          <Input
-            label="Confirmar senha"
-            type="password"
-            autoComplete="new-password"
-            value={confirmarSenha}
-            onChange={(event) => setConfirmarSenha(event.target.value)}
-          />
-        </div>
-        {erro && <p className="mt-3 text-xs text-status-critical-fg">{erro}</p>}
-        <div className="mt-5">
-          <Button variant="primary" fullWidth onClick={handleSalvar} disabled={!token}>
-            Salvar nova senha
-          </Button>
-        </div>
+        <form onSubmit={handleSubmit} className="contents">
+          <div className="flex flex-col gap-3.5">
+            <Input
+              label="Nova senha"
+              type="password"
+              autoComplete="new-password"
+              value={novaSenha}
+              onChange={(event) => setNovaSenha(event.target.value)}
+            />
+            <Input
+              label="Confirmar senha"
+              type="password"
+              autoComplete="new-password"
+              value={confirmarSenha}
+              onChange={(event) => setConfirmarSenha(event.target.value)}
+            />
+          </div>
+          {erro && <p className="mt-3 text-xs text-status-critical-fg">{erro}</p>}
+          <div className="mt-5">
+            <Button type="submit" variant="primary" fullWidth disabled={!token || submitting}>
+              Salvar nova senha
+            </Button>
+          </div>
+        </form>
       </Card>
     </AcessoLayout>
   );

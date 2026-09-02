@@ -146,7 +146,7 @@ export function PresencaScreen() {
   }
 
   return (
-    <div className="flex flex-col gap-4 px-4 py-5 md:gap-5 md:px-8 md:py-7">
+    <div className="flex flex-col gap-4 px-4 py-5 md:mx-auto md:w-full md:max-w-3xl md:gap-5 md:px-8 md:py-7">
       <div className="md:hidden">
         <SectionTitle subtitle={meta.mobileSubtitle}>{meta.title}</SectionTitle>
       </div>

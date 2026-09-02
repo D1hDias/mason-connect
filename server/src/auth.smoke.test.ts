@@ -7,7 +7,10 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 // never attempts a real Resend API call (we have no real API key in this
 // environment). vitest hoists vi.mock calls above imports automatically.
 const { sendEmailMock } = vi.hoisted(() => ({
-  sendEmailMock: vi.fn().mockResolvedValue(undefined),
+  // Resolves with the same `{ data, error }` shape the real Resend SDK
+  // returns (sendResetPassword in auth.ts destructures `error` off the
+  // resolved value to log delivery failures — see finding #3).
+  sendEmailMock: vi.fn().mockResolvedValue({ data: { id: "stub-email-id" }, error: null }),
 }));
 vi.mock("./email.js", () => ({
   sendEmail: sendEmailMock,

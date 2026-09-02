@@ -79,6 +79,12 @@ abaixo, pensado para desenvolvimento/teste local).
 domínio próprio. Antes de ir para produção, troque `FROM_ADDRESS` em `src/email.ts` por um
 endereço em um domínio verificado do Mason Connect.
 
+Sem `RESEND_API_KEY`, o servidor sobe normalmente (o cliente Resend é instanciado sob demanda,
+só quando um e-mail é de fato enviado) — o envio falha apenas quando `requestPasswordReset` é
+chamado, e essa falha é registrada no log do servidor (`[auth] falha ao enviar e-mail de
+redefinição de senha: ...`). A resposta HTTP ao cliente não é afetada: `sendResetPassword` é
+fire-and-forget por design (mitigação de timing attack).
+
 O smoke test **não** exercita o envio real de e-mail (não há chave de API real disponível nesta
 tarefa) — ele testa o fluxo central de autenticação (signup/signin/sessão/signout) e, para o
 teste de `requestPasswordReset`, faz stub de `sendEmail`. A entrega real de e-mail via Resend

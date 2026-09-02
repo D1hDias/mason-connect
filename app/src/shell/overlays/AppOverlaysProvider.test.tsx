@@ -142,6 +142,19 @@ describe('AppOverlaysProvider', () => {
       expect(screen.queryByText('Remover membro')).toBeNull();
     });
 
+    it('closes the modal without calling onConfirm when Escape is pressed (Modal Escape wired through onClose)', () => {
+      const onConfirmSpy = vi.fn();
+      renderHarness(onConfirmSpy);
+
+      click('open-confirm');
+      expect(screen.getByText('Remover membro')).toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: 'Escape' });
+
+      expect(onConfirmSpy).not.toHaveBeenCalled();
+      expect(screen.queryByText('Remover membro')).toBeNull();
+    });
+
     it('closes an open drawer when confirm() is called', () => {
       renderHarness(vi.fn());
 

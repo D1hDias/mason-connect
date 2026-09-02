@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "start": "NODE_ENV=production node dist/index.js",
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

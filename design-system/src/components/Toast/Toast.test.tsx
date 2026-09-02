@@ -11,4 +11,10 @@ describe('Toast', () => {
     render(<Toast message="Operação concluída com sucesso" />);
     expect(screen.getByText('Operação concluída com sucesso')).toBeInTheDocument();
   });
+
+  it('has status role and aria-live="polite" for screen reader announcement', () => {
+    render(<Toast message="Operação concluída com sucesso" />);
+    const status = screen.getByRole('status');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+  });
 });

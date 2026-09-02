@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoSymbol from '../../assets/logo-symbol.png';
 import { profile } from '../../data/profile';
@@ -24,11 +25,30 @@ import { useAppOverlaysContext } from './context';
  * Deliberate difference from the prototype: there, some nav items only
  * showed a toast instead of navigating (a design-tool limitation) — here,
  * all 8 `moduleItems` navigate for real, no exceptions.
+ *
+ * Pressing Escape while open calls `closeDrawer()` (same pattern as the
+ * design-system `Modal`'s Escape handling). Clicking the scrim also
+ * closes it, via the existing `onClick={closeDrawer}` below.
  */
 export function Drawer() {
   const { drawerOpen, closeDrawer } = useAppOverlaysContext('Drawer');
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!drawerOpen) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        closeDrawer();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [drawerOpen, closeDrawer]);
 
   if (!drawerOpen) {
     return null;
@@ -42,7 +62,11 @@ export function Drawer() {
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/60" onClick={closeDrawer} data-testid="drawer-scrim" />
-      <div className="fixed inset-y-0 left-0 z-40 flex w-[284px] flex-col gap-[26px] bg-brand-brown px-3.5 py-[22px]">
+      <div
+        role="dialog"
+        aria-label="Menu"
+        className="fixed inset-y-0 left-0 z-40 flex w-[284px] flex-col gap-[26px] bg-brand-brown px-3.5 py-[22px]"
+      >
         <div className="flex items-center gap-3 px-1">
           <span className="flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-full bg-brand-cream">
             <img src={logoSymbol} alt="Mason Connect" className="h-8 w-8 object-contain" />

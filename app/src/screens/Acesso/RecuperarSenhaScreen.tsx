@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Input } from 'mason-connect-design-system';
 import { authClient } from '../../lib/authClient';
@@ -19,28 +19,39 @@ export function RecuperarSenhaScreen() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [erro, setErro] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleEnviar() {
     setErro(null);
-    await authClient.requestPasswordReset(
-      {
-        email,
-        redirectTo: `${window.location.origin}/redefinir-senha`,
-      },
-      {
-        onSuccess: () => {
-          navigate('/login', { state: { toast: 'Instruções enviadas. Verifique sua caixa de entrada.' } });
+    setSubmitting(true);
+    try {
+      await authClient.requestPasswordReset(
+        {
+          email,
+          redirectTo: `${window.location.origin}/redefinir-senha`,
         },
-        onError: () => {
-          // Mensagem genérica de propósito: diferente de LoginScreen, este
-          // endpoint é fire-and-forget por design no servidor (evita
-          // vazar se o e-mail existe via timing attack) — não há uma
-          // mensagem de erro "legítima" do usuário pra repassar aqui, só
-          // falhas reais de rede/servidor.
-          setErro('Ocorreu um erro. Tente novamente.');
+        {
+          onSuccess: () => {
+            navigate('/login', { state: { toast: 'Instruções enviadas. Verifique sua caixa de entrada.' } });
+          },
+          onError: () => {
+            // Mensagem genérica de propósito: diferente de LoginScreen, este
+            // endpoint é fire-and-forget por design no servidor (evita
+            // vazar se o e-mail existe via timing attack) — não há uma
+            // mensagem de erro "legítima" do usuário pra repassar aqui, só
+            // falhas reais de rede/servidor.
+            setErro('Ocorreu um erro. Tente novamente.');
+          },
         },
-      },
-    );
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    void handleEnviar();
   }
 
   return (
@@ -50,23 +61,25 @@ export function RecuperarSenhaScreen() {
         <p className="mb-[18px] text-[13px] leading-relaxed text-brand-bronze">
           Informe o e-mail cadastrado. Enviaremos um link de redefinição válido por 30 minutos.
         </p>
-        <Input
-          label="E-mail"
-          type="email"
-          placeholder="irmao@exemplo.com.br"
-          autoComplete="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        {erro && <p className="mt-3 text-xs text-status-critical-fg">{erro}</p>}
-        <div className="mt-5 flex flex-col gap-2.5">
-          <Button variant="primary" fullWidth onClick={handleEnviar}>
-            Enviar instruções
-          </Button>
-          <Button variant="secondary" fullWidth onClick={() => navigate('/login')}>
-            Voltar ao login
-          </Button>
-        </div>
+        <form onSubmit={handleSubmit} className="contents">
+          <Input
+            label="E-mail"
+            type="email"
+            placeholder="irmao@exemplo.com.br"
+            autoComplete="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          {erro && <p className="mt-3 text-xs text-status-critical-fg">{erro}</p>}
+          <div className="mt-5 flex flex-col gap-2.5">
+            <Button type="submit" variant="primary" fullWidth disabled={submitting}>
+              Enviar instruções
+            </Button>
+            <Button type="button" variant="secondary" fullWidth onClick={() => navigate('/login')}>
+              Voltar ao login
+            </Button>
+          </div>
+        </form>
       </Card>
     </AcessoLayout>
   );

@@ -88,4 +88,15 @@ describe('Drawer', () => {
     await user.click(screen.getByTestId('drawer-scrim'));
     expect(screen.queryByTestId('drawer-scrim')).toBeNull();
   });
+
+  it('closes the drawer when Escape is pressed', async () => {
+    const user = userEvent.setup();
+    renderWithDrawer();
+
+    await user.click(screen.getByRole('button', { name: 'open-drawer' }));
+    expect(screen.getByTestId('drawer-scrim')).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+    expect(screen.queryByTestId('drawer-scrim')).toBeNull();
+  });
 });

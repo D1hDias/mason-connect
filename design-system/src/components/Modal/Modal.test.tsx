@@ -46,4 +46,30 @@ describe('Modal', () => {
     await userEvent.click(container.firstElementChild as HTMLElement);
     expect(onClose).not.toHaveBeenCalled();
   });
+
+  it('calls onClose when Escape is pressed while open', async () => {
+    const onClose = vi.fn();
+    render(
+      <Modal open onClose={onClose}>
+        conteúdo
+      </Modal>
+    );
+
+    await userEvent.keyboard('{Escape}');
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not register an Escape listener when closed (no leak)', async () => {
+    const onClose = vi.fn();
+    render(
+      <Modal open={false} onClose={onClose}>
+        conteúdo
+      </Modal>
+    );
+
+    await userEvent.keyboard('{Escape}');
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
 });
